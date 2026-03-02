@@ -8,7 +8,7 @@ const messageSchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        enum: ['text', 'booking_card', 'status_card', 'action', 'system'],
+        enum: ['text', 'booking_card', 'status_card', 'action', 'system', "links"],
         default: 'text',
     },
     content: { type: String, required: true },

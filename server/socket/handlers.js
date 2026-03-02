@@ -35,9 +35,7 @@ export function registerHandlers(io) {
         socket.on(CUSTOMER_EVENTS.JOIN_SESSION, async ({ sessionId, orgId, customerInfo = {} }) => {
             try {
                 socket.join(ROOM.session(sessionId));
-
-                let session = await Session.findById(sessionId);
-
+                let session = await Session.findById(sessionId)
                 if (!session) {
                     // ── Brand new session ──────────────────────────────────────────
                     // Build the welcome message and save it to DB immediately so it
@@ -45,7 +43,35 @@ export function registerHandlers(io) {
                     const welcomeMsg = {
                         sender: SENDER_TYPE.BOT,
                         type: 'text',
-                        content: "Hi there! 👋 How can I help you today? Choose an option below or type your question.",
+                        content: "👋 Hi! Welcome to Travomint",
+                        timestamp: new Date(),
+                        status: MESSAGE_STATUS.DELIVERED,
+                    };
+                    const welcomeMsg2 = {
+                        sender: SENDER_TYPE.BOT,
+                        type: 'links',
+                        content: "Download the Travomint app for an easier booking of Flight, Hotels, Car transfers & Vacations.",
+                        timestamp: new Date(),
+                        status: MESSAGE_STATUS.DELIVERED,
+                        metadata: {
+                            links: [
+                                {
+                                    label: "Google Play",
+                                    url: "https://play.google.com/store/apps/details?id=com.snva.TravoMint&pcampaignid=web_share",
+                                    icon: "https://play.google.com/store/apps/details?id=com.travomint.app"
+                                },
+                                {
+                                    label: "App Store",
+                                    url: "https://apps.apple.com/in/app/travomint-flight-hotels-car/id1603093439",
+                                    icon: "https://play.google.com/store/apps/details?id=com.travomint.app"
+                                }
+                            ]
+                        }
+                    };
+                    const welcomeMsg3 = {
+                        sender: SENDER_TYPE.BOT,
+                        type: 'text',
+                        content: "Hey there! Not sure of what you are looking for? I can help!",
                         timestamp: new Date(),
                         status: MESSAGE_STATUS.DELIVERED,
                     };
@@ -53,11 +79,21 @@ export function registerHandlers(io) {
                         _id: sessionId,
                         orgId,
                         customer: customerInfo,
-                        messages: [welcomeMsg],
+                        messages: [welcomeMsg, welcomeMsg2, welcomeMsg3],
                     });
                     // Send just the welcome message to the widget
                     const saved = session.messages[0];
-                    socket.emit(SERVER_EVENTS.MESSAGE_RECEIVED, { ...welcomeMsg, _id: saved._id });
+                    setTimeout(() => {
+                        socket.emit(SERVER_EVENTS.MESSAGE_RECEIVED, { ...welcomeMsg, _id: saved._id });
+                    }, 500);
+                    setTimeout(() => {
+                        const saved2 = session.messages[1];
+                        socket.emit(SERVER_EVENTS.MESSAGE_RECEIVED, { ...welcomeMsg2, _id: saved2._id });
+                    }, 1000)
+                    setTimeout(() => {
+                        const saved3 = session.messages[2];
+                        socket.emit(SERVER_EVENTS.MESSAGE_RECEIVED, { ...welcomeMsg3, _id: saved3._id });
+                    }, 1500)
                 } else {
                     // ── Reconnect / refresh ────────────────────────────────────────
                     if (Object.keys(customerInfo).length) {
