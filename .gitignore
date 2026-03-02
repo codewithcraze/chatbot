@@ -1,0 +1,6 @@
+/node_modules
+
+/crm/node_modules
+/server/node_modules
+/widget/node_modules
+/widget-loader/node_modules
