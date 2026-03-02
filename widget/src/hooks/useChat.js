@@ -138,10 +138,18 @@ export function useChat() {
     const expand = useCallback(() => {
         setIsExpanded(true);
         setUnreadCount(0);
+        // Tell the parent window's widget-loader.js to resize the iframe
+        if (window.parent) {
+            window.parent.postMessage({ type: 'WIDGET_TOGGLE', expanded: true }, '*');
+        }
     }, []);
 
     const collapse = useCallback(() => {
         setIsExpanded(false);
+        // Tell the parent window's widget-loader.js to shrink the iframe
+        if (window.parent) {
+            window.parent.postMessage({ type: 'WIDGET_TOGGLE', expanded: false }, '*');
+        }
     }, []);
 
     return {

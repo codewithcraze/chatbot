@@ -25,7 +25,7 @@
     iframe.setAttribute('aria-label', 'Chat support widget');
 
     // Collapsed (bubble) state
-    const BUBBLE_SIZE = '60px';
+    const BUBBLE_SIZE = '50px';
     const PANEL_W = '380px';
     const PANEL_H = '580px';
 
@@ -34,7 +34,7 @@
         if (expanded) {
             iframe.style.cssText = isMobile
                 ? `position:fixed;bottom:0;right:0;width:100vw;height:100dvh;border:none;z-index:999999;border-radius:0;transition:all 0.3s ease;background:transparent;`
-                : `position:fixed;bottom:20px;right:20px;width:${PANEL_W};height:${PANEL_H};border:none;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.15);z-index:999999;transition:all 0.3s ease;background:transparent;`;
+                : `position:fixed;bottom:0px;right:0px;width:${PANEL_W};height:${PANEL_H};border:none;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.15);z-index:999999;transition:all 0.3s ease;background:transparent;`;
         } else {
             iframe.style.cssText = `position:fixed;bottom:20px;right:20px;width:${BUBBLE_SIZE};height:${BUBBLE_SIZE};border:none;border-radius:9999px;z-index:999999;background:transparent;transition:all 0.3s ease;`;
         }

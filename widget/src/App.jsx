@@ -8,6 +8,7 @@ import ChatPanel from './components/ChatPanel.jsx';
 export default function App({ orgId, primaryColor }) {
     const chat = useChat();
 
+
     const socket = useSocket(chat.sessionId, orgId, {
         onSessionHistory: chat.onSessionHistory,
         onMessage: chat.onMessage,

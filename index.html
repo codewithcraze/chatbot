@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Widget Integration Demo</title>
+
+</head>
+
+<body>
+    <div>
+        <div id="chat-widget-root"></div>
+    </div>
+
+    <!-- 
+      This is the correct production-style integration.
+      It injects the widget via iframe isolation.
+      Make sure to run `npm run dev` in the /widget folder so it serves the UI on port 5174.
+    -->
+    <script src="./widget-loader/loader.js" data-org-id="demo_org_1" data-primary-color="#6366f1"></script>
+</body>
+
+</html>
