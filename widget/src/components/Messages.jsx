@@ -3,9 +3,14 @@ import MessageBubble from './MessageBubble.jsx';
 
 export default function Messages({ messages, primaryColor }) {
     const bottomRef = useRef(null);
+    const prevLengthRef = useRef(messages.length); // track previous count
 
     useEffect(() => {
-        bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+        // Only scroll if a NEW message was added, not on initial load
+        if (messages.length > prevLengthRef.current) {
+            bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }
+        prevLengthRef.current = messages.length;
     }, [messages]);
 
     return (

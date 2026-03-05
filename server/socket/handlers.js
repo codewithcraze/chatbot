@@ -291,6 +291,24 @@ export function registerHandlers(io) {
                     const savedMsg = updatedSession.messages.at(-1);
                     socket.emit(SERVER_EVENTS.MESSAGE_RECEIVED, { ...savedMsg.toObject(), _id: savedMsg._id });
                 }
+                if(action === "query"){
+                     const query = {
+                        sender: SENDER_TYPE.BOT,
+                        type: 'query',
+                        content: "We have received your query and our support team will get back to you shortly.",
+                        timestamp: new Date(),
+                        status: MESSAGE_STATUS.DELIVERED,
+                        metadata: {
+                           email: payload.email,
+                           name: payload.name,
+                           phone: payload.phone,
+                        }
+                    };
+
+                    const updatedSession = await Session.findByIdAndUpdate(sessionId, { $push: { messages: query } }, { new: true });
+                    const savedMsg = updatedSession.messages.at(-1);
+                    socket.emit(SERVER_EVENTS.MESSAGE_RECEIVED, { ...savedMsg.toObject(), _id: savedMsg._id });
+                }
 
                 // if (action === 'create') {
                 //     const booking = await Booking.create({

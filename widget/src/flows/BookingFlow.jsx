@@ -134,6 +134,9 @@ export default function BookingFlow({ onAction, onClose }) {
         children: 0,
         infants: 0,
         cabin: "",
+        email: "",
+        phone: "",
+        name: ""
     });
 
     const set = (key, val) => setData(d => ({ ...d, [key]: val }));
@@ -173,6 +176,11 @@ export default function BookingFlow({ onAction, onClose }) {
         onClose?.();
     };
 
+
+    const handleSubmitQuery = () => {  
+        onAction?.("query", data);
+        onClose?.();
+     }
 
 
     return (
@@ -432,7 +440,20 @@ export default function BookingFlow({ onAction, onClose }) {
             )}
             {/* More than 9 passengers. Get Information in form. */}
 
-
+            {step === "done" && (data?.adults + data?.children + data?.infants >= 9) && (
+                <div style={{ ...styles.body, alignItems: "center", textAlign: "center", justifyContent: "center" }}>
+                    <h2 style={{ fontWeight: 800, fontSize: 22, margin: "16px 0 8px", color: "#1a1a1a" }}>Contact Us for Group Bookings</h2>
+                    <p style={{ color: "#666", fontSize: 14, marginBottom: 24 }}>For bookings with 9 or more passengers, please contact our support team for assistance.</p>
+                    <form>
+                        <input type="text" placeholder="Your Name" value={data.name} style={{ ...styles.input, marginBottom: 12 }} onChange={(e) => setData({ ...data, name: e.target.value })} required />
+                        <input type="email" placeholder="Your Email" value={data.email} style={{ ...styles.input, marginBottom: 12 }} onChange={(e) => setData({ ...data, email: e.target.value })} required />
+                        <input type="tel" placeholder="Your Phone Number" value={data.phone} style={{ ...styles.input, marginBottom: 12 }} onChange={(e) => setData({ ...data, phone: e.target.value })} required />
+                    </form>
+                    <button style={{ ...styles.nextBtn, padding: "12px 14px", width: "100%" }} onClick={handleSubmitQuery}>
+                        Submit Inquiry
+                    </button>
+                </div>
+            )}
 
         </div>
     );

@@ -34,6 +34,21 @@ export default function MessageBubble({ message, primaryColor }) {
     }
 
 
+       if (type === 'query') {
+       
+        return (
+            <div className="widget-msg widget-msg--bot">
+                <div className="widget-booking-card">
+                    <div className="widget-booking-card__header">{content}</div>
+                    <div className="widget-booking-card__row"><span>Name</span><strong>{metadata?.name || '—'}</strong></div>
+                    <div className="widget-booking-card__row"><span>Email</span><strong>{metadata.email || '—'}</strong></div>
+                    <div className="widget-booking-card__row"><span>Phone Number</span><strong>{metadata.phone || '—'}</strong></div>
+                </div>
+                <div className="widget-msg__time">{formatTime(timestamp)}</div>
+            </div>
+        );
+    }
+
     if (type === 'links' && metadata?.links?.length) {
         return (
             <div className="widget-msg widget-msg--bot">

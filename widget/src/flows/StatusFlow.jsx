@@ -26,7 +26,7 @@ function BotMessage({ text, isNew }) {
                 background: '#f0f0f0', color: '#1a1a1a',
                 padding: '10px 14px', borderRadius: 18, borderBottomLeftRadius: 4,
                 maxWidth: '75%', fontSize: 14, lineHeight: 1.5,
-             
+
             }}>{text}</div>
         </div>
     );
@@ -36,10 +36,10 @@ function UserMessage({ text }) {
     return (
         <div style={{ display: 'flex', justifyContent: 'flex-end', animation: 'slideIn 0.3s ease' }}>
             <div style={{
-                    background: '#f0f0f0', color: '#1a1a1a',padding: '10px 14px',
+                background: '#f0f0f0', color: '#1a1a1a', padding: '10px 14px',
                 borderRadius: 18, borderBottomRightRadius: 4,
                 maxWidth: '75%', fontSize: 14, lineHeight: 1.5,
-                
+
             }}>{text}</div>
         </div>
     );
@@ -139,7 +139,7 @@ export default function StatusFlow({ onAction, onClose }) {
                         borderTop: '1px solid #f0f0f0',
                         display: 'flex', gap: 8, alignItems: 'center'
                     }}>
-                         <textarea
+                        <textarea
                             ref={inputRef}
                             value={inputValue}
                             onChange={e => setInputValue(e.target.value)}
@@ -151,13 +151,13 @@ export default function StatusFlow({ onAction, onClose }) {
                         />
                         <button
                             onClick={handleSend}
-                             className="widget-input__send"
+                            className="widget-input__send"
                             disabled={!inputValue.trim()}
-                             aria-label="Send message"
-                           
+                            aria-label="Send message"
+
                         > <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-                </svg></button>
+                                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                            </svg></button>
                     </div>
                 )}
             </div>
