@@ -43,7 +43,7 @@ export default function ChatPanel({
                 primaryColor={primaryColor}
             />
 
-            {queueBanner}   
+            {queueBanner}
             {resolvedBanner}
 
             {activeFlow ? (
@@ -58,13 +58,14 @@ export default function ChatPanel({
                 </>
             )}
 
-            <InputBar
+            {activeFlow === null && (<InputBar
                 onSend={onSendMessage}
                 onTypingStart={onTypingStart}
                 onTypingStop={onTypingStop}
-                disabled={sessionResolved}
+                disabled={sessionResolved || activeFlow !== null}
                 placeholder={sessionResolved ? 'Chat resolved' : 'Type a message…'}
-            />
+            />)}
+
         </div>
     );
 }

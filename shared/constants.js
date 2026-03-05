@@ -107,3 +107,10 @@ export const SERVICES = [
   'Support',
   'Other',
 ];
+
+
+export const AIRLINE_COLORS = {
+  EK: { from: "#C41E3A", to: "#8B0000" },
+  AI: { from: "#FF6A00", to: "#c94f00" },
+  LH: { from: "#05164D", to: "#0a2a7a" },
+};

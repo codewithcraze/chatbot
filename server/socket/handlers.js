@@ -243,73 +243,119 @@ export function registerHandlers(io) {
          */
         socket.on(CUSTOMER_EVENTS.BOOKING_ACTION, async ({ sessionId, action, payload }) => {
             try {
+                console.log('Received booking action:', { sessionId, action, payload });
                 const session = await Session.findById(sessionId);
                 if (!session) return;
 
-                if (action === 'create') {
-                    const booking = await Booking.create({
+
+                // For simplicity, we'll handle all booking logic in one event handler.
+                // Flight booking.
+                if(action === 'flight') {
+                    // In a real implementation, you'd integrate with flight APIs here.
+                    // For this example, we'll just simulate a booking confirmation.
+                      const welcomeMsg2 = {
+                        sender: SENDER_TYPE.BOT,
+                        type: 'flight_options',
+                        content: "Choose from these flight options we found for you:",
+                        timestamp: new Date(),
+                        status: MESSAGE_STATUS.DELIVERED,
+                        metadata: {
+                            flightOptions: [
+                                {
+                                    airline: "Air India",
+                                    flightNumber: "AI-202",
+                                    departure: "2024-12-01T10:00:00",
+                                    arrival: "2024-12-01T14:00:00",
+                                    price: 5000,
+                                    currency: "INR",
+                                    bookingLink: "https://www.airindia.in/book-online.htm"
+                                },
+                                {   
+                                    airline: "IndiGo",
+                                    flightNumber: "6E-404",
+                                    departure: "2024-12-01T11:00:00",
+                                    arrival: "2024-12-01T15:00:00",
+                                    price: 4500,
+                                    currency: "INR",
+                                    bookingLink: "https://www.goindigo.in/flight-booking.html"
+                                }
+                            ]
+                        }
+                    };
+
+                    const updatedSession = await Session.findByIdAndUpdate(
                         sessionId,
-                        orgId: session.orgId,
-                        service: payload.service,
-                        datetime: payload.datetime,
-                        customer: session.customer,
-                        history: [{ action: 'created' }],
-                    });
-
-                    // Save confirmation message to session
-                    await Session.findByIdAndUpdate(sessionId, {
-                        $push: {
-                            messages: {
-                                sender: SENDER_TYPE.BOT,
-                                type: 'booking_card',
-                                content: `Booking confirmed! Your ID is **${booking._id}**`,
-                                metadata: { bookingId: booking._id, service: booking.service, datetime: booking.datetime },
-                                timestamp: new Date(),
-                            },
-                        },
-                    });
-
-                    socket.emit(SERVER_EVENTS.BOOKING_CONFIRMED, { booking });
-                }
-
-                if (action === 'status') {
-                    const { bookingId, email } = payload;
-                    const query = bookingId ? { _id: bookingId } : { 'customer.email': email, orgId: session.orgId };
-                    const booking = await Booking.findOne(query);
-                    if (!booking) {
-                        socket.emit(SERVER_EVENTS.MESSAGE_RECEIVED, {
-                            sender: SENDER_TYPE.BOT,
-                            type: 'text',
-                            content: "Sorry, I couldn't find a booking with that ID or email.",
-                            timestamp: new Date(),
-                        });
-                        return;
-                    }
-                    socket.emit(SERVER_EVENTS.BOOKING_CONFIRMED, { booking, action: 'status' });
-                }
-
-                if (action === 'cancel') {
-                    const booking = await Booking.findByIdAndUpdate(
-                        payload.bookingId,
-                        { status: 'cancelled', $push: { history: { action: 'cancelled' } } },
+                        { $push: { messages: welcomeMsg2 } },
                         { new: true }
                     );
-                    socket.emit(SERVER_EVENTS.BOOKING_CONFIRMED, { booking, action: 'cancel' });
+                    const savedMsg = updatedSession.messages.at(-1);
+                    socket.emit(SERVER_EVENTS.MESSAGE_RECEIVED, { ...savedMsg.toObject(), _id: savedMsg._id });
                 }
 
-                if (action === 'modify') {
-                    const booking = await Booking.findByIdAndUpdate(
-                        payload.bookingId,
-                        {
-                            ...(payload.service && { service: payload.service }),
-                            ...(payload.datetime && { datetime: payload.datetime }),
-                            status: 'modified',
-                            $push: { history: { action: 'modified' } },
-                        },
-                        { new: true }
-                    );
-                    socket.emit(SERVER_EVENTS.BOOKING_CONFIRMED, { booking, action: 'modify' });
-                }
+                // if (action === 'create') {
+                //     const booking = await Booking.create({
+                //         sessionId,
+                //         orgId: session.orgId,
+                //         service: payload.service,
+                //         datetime: payload.datetime,
+                //         customer: session.customer,
+                //         history: [{ action: 'created' }],
+                //     });
+
+                //     // Save confirmation message to session
+                //     await Session.findByIdAndUpdate(sessionId, {
+                //         $push: {
+                //             messages: {
+                //                 sender: SENDER_TYPE.BOT,
+                //                 type: 'booking_card',
+                //                 content: `Booking confirmed! Your ID is **${booking._id}**`,
+                //                 metadata: { bookingId: booking._id, service: booking.service, datetime: booking.datetime },
+                //                 timestamp: new Date(),
+                //             },
+                //         },
+                //     });
+
+                //     socket.emit(SERVER_EVENTS.BOOKING_CONFIRMED, { booking });
+                // }
+
+                // if (action === 'status') {
+                //     const { bookingId, email } = payload;
+                //     const query = bookingId ? { _id: bookingId } : { 'customer.email': email, orgId: session.orgId };
+                //     const booking = await Booking.findOne(query);
+                //     if (!booking) {
+                //         socket.emit(SERVER_EVENTS.MESSAGE_RECEIVED, {
+                //             sender: SENDER_TYPE.BOT,
+                //             type: 'text',
+                //             content: "Sorry, I couldn't find a booking with that ID or email.",
+                //             timestamp: new Date(),
+                //         });
+                //         return;
+                //     }
+                //     socket.emit(SERVER_EVENTS.BOOKING_CONFIRMED, { booking, action: 'status' });
+                // }
+
+                // if (action === 'cancel') {
+                //     const booking = await Booking.findByIdAndUpdate(
+                //         payload.bookingId,
+                //         { status: 'cancelled', $push: { history: { action: 'cancelled' } } },
+                //         { new: true }
+                //     );
+                //     socket.emit(SERVER_EVENTS.BOOKING_CONFIRMED, { booking, action: 'cancel' });
+                // }
+
+                // if (action === 'modify') {
+                //     const booking = await Booking.findByIdAndUpdate(
+                //         payload.bookingId,
+                //         {
+                //             ...(payload.service && { service: payload.service }),
+                //             ...(payload.datetime && { datetime: payload.datetime }),
+                //             status: 'modified',
+                //             $push: { history: { action: 'modified' } },
+                //         },
+                //         { new: true }
+                //     );
+                //     socket.emit(SERVER_EVENTS.BOOKING_CONFIRMED, { booking, action: 'modify' });
+                // }
             } catch (err) {
                 socket.emit(SERVER_EVENTS.ERROR, { message: err.message });
             }
