@@ -20,7 +20,7 @@ if (!orgId) {
 
 // Ensure defaults
 orgId = orgId || 'demo_org_1';
-primaryColor = primaryColor || '#6366f1';
+primaryColor = primaryColor || '#f15b2f';
 
 // Inject primary color as CSS variable
 document.documentElement.style.setProperty('--primary', primaryColor);

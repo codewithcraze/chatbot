@@ -43,7 +43,7 @@ export default function ChatPanel({
                 primaryColor={primaryColor}
             />
 
-            {/* {queueBanner} */}
+            {queueBanner}   
             {resolvedBanner}
 
             {activeFlow ? (
@@ -52,8 +52,8 @@ export default function ChatPanel({
                 </div>
             ) : (
                 <>
-                    <QuickPills onSelect={setActiveFlow} onConnectAgent={onConnectAgent} />
                     <Messages messages={messages} primaryColor={primaryColor} />
+                    <QuickPills onSelect={setActiveFlow} onConnectAgent={onConnectAgent} />
                     {isAgentTyping && <TypingIndicator />}
                 </>
             )}

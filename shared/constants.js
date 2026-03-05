@@ -100,10 +100,10 @@ export const ROOM = {
 
 // ─── Services (selectable in booking flow) ───────────────────────────────────
 export const SERVICES = [
-  'Consultation',
-  'Installation',
-  'Repair',
-  'Maintenance',
+  'Flight',
+  'Hotel Reservation',
+  'Car Rental',
+  'Vacation Packages',
   'Support',
   'Other',
 ];

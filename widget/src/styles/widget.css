@@ -1,8 +1,6 @@
 /* ============================================================
    CHAT WIDGET – Design System & Component Styles
-   All scoped to #chat-widget-root to avoid host-page conflicts
-   (this runs inside an iframe or the root div)
-   ============================================================ */
+   All scoped to #
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
@@ -62,12 +60,12 @@ body {
    ──────────────────────────────────────────────────────────── */
 .widget-bubble {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 60px;
-  height: 60px;
+  /* bottom: 0px;
+  right: 0px; */
+  /* width: 50px;
+  height: 50px; */
   border-radius: var(--radius-full);
-  background: var(--primary);
+  /* background: var(--primary); */
   border: none;
   cursor: pointer;
   display: flex;
@@ -78,6 +76,8 @@ body {
   transition: transform 0.25s var(--timing), box-shadow 0.25s var(--timing-ease);
   z-index: 999999;
 }
+
+
 
 .widget-bubble:hover {
   transform: scale(1.1);
@@ -175,10 +175,10 @@ body {
     border-radius: 0;
   }
 
-  .widget-bubble {
+  /* .widget-bubble {
     bottom: -5px;
-    right: -5px;
-  }
+    right: -5px; */
+  /* } */
 }
 
 /* ────────────────────────────────────────────────────────────
@@ -340,12 +340,16 @@ body {
    ──────────────────────────────────────────────────────────── */
 .widget-pills {
   display: flex;
+  flex-wrap: wrap;
+  /* 🔥 this makes items go to next line */
   gap: 8px;
   padding: 10px 14px;
-  overflow-x: auto;
-  flex-shrink: 0;
-  scrollbar-width: none;
   border-bottom: 1px solid var(--border);
+}
+
+.widget-pills>* {
+  white-space: nowrap;
+  /* keeps text in single pill */
 }
 
 .widget-pills::-webkit-scrollbar {
@@ -359,7 +363,7 @@ body {
   border: 1.5px solid var(--border);
   background: var(--bg-surface);
   color: var(--text-primary);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.18s var(--timing-ease);
@@ -513,6 +517,41 @@ body {
   border-radius: var(--radius-md);
   overflow: hidden;
   min-width: 220px;
+
+
+}
+
+.widget-links-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  min-width: 220px;
+  padding: 10px 10px;
+  background: var(--bg-surface);
+}
+
+.widget-links-card__grid {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 10px 14px;
+}
+
+.widget-links-card__link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  background: white;
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  margin-bottom: 5px;
+  transition: all 0.18s var(--timing-ease);
 }
 
 .widget-booking-card__header {
